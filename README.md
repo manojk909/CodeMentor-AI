@@ -110,7 +110,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Visit: **[http://localhost:5000](http://localhost:5000)**
+Visit: **[http://localhost:5000](https://codetrackpro.onrender.com)**
 
 ---
 
@@ -147,12 +147,6 @@ To contribute:
 4. Submit a pull request
 
 Feel free to open issues for bugs, features, or improvements.
-
----
-
-## 📝 License
-
-This project is licensed under the **MIT License**.
 
 ---
 
