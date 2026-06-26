@@ -7,7 +7,7 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=development
-      - SESSION_SECRET=dev-secret-key-change-in-production
+      - SESSION_SECRET=3b71677604b68bc40924db1fd74fe3eb8e181d07f24b292aeb8c422a6fda4c17
       # By default, runs using SQLite fallback.
       # To run with postgres, uncomment DATABASE_URL below and the db service.
       # - DATABASE_URL=postgresql://codementor:password@db:5432/codementor_ai

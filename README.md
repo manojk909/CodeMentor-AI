@@ -1,82 +1,59 @@
-<h1 align="center">🚀 CODEMENTOR-AI</h1>
+# CodeMentor AI
 
-<p align="center">
-   Track your coding progress, generate study plans, execute code online, and accelerate your learning journey — all in one platform.
-</p>
+Track your coding progress, generate study plans, execute code online, and accelerate your learning journey — all in one platform.
 
-<p align="center">
-   <img src="https://img.shields.io/badge/Framework-Flask-blue" />
-   <img src="https://img.shields.io/badge/Python-3.10+-yellow" />
-   <img src="https://img.shields.io/badge/Status-Active-success" />
-   <img src="https://img.shields.io/github/license/manojk909/CODEMENTOR-AI" />
-</p>
+[![Framework - Flask](https://img.shields.io/badge/Framework-Flask-blue)](https://flask.palletsprojects.com/)
+[![Python - 3.11+](https://img.shields.io/badge/Python-3.11+-yellow)](https://python.org)
+[![Status - Active](https://img.shields.io/badge/Status-Active-success)](#)
 
 ---
 
 ## 📌 About the Project
 
-**CODEMENTOR-AI** is a web-based coding assistant & progress tracker built using **Flask + Python**.  
-It helps users:
+**CodeMentor AI** is an advanced web-based coding assistant and progress tracker built using **Flask + Python**.  
+It provides developers with:
 
-- Track coding progress over time  
-- Execute code instantly in multiple languages (Python/C++)  
-- Generate personalized study plans  
-- Access AI-powered flashcards & tutoring features  
-- Join study groups & collaborate  
-- View coding stats & activity analytics  
-- And more…
-
-This project is designed for students, developers, and anyone serious about improving their problem-solving skills.
+- **AI-Powered Tutoring**: Ask concepts, get explanations, and walk through coding paradigms dynamically.
+- **Spaced Repetition Flashcards**: Automatically generate revision decks on any topic using Google Gemini/OpenAI, and schedule them using a SuperMemo algorithm.
+- **Code Execution Sandbox**: Safe, cross-platform isolated sandbox supporting real-time Python/C++ code compilation and automated test case runner.
+- **Collaborative Study Groups**: Matches you with peers based on your target companies, goals, and coding progress.
+- **Competitive Contests**: Admin-created coding challenges with leaderboards, runtime scoring, and visual podiums.
 
 ---
 
-## ✨ Features
+## 📸 Screenshots
 
-### 📈 **Progress Tracking**
-- Tracks coding activity & solved problems  
-- Analytics dashboard to measure growth  
-- Daily/weekly/monthly progress summaries  
+### 📊 CodeMentor AI Dashboard
+![CodeMentor AI Dashboard](./app/static/images/dashboard_mockup.png)
 
-### ⚙️ **Code Execution Engine**
-- Run Python / C++ code inside the platform  
-- Safe, isolated execution environment  
-- Input/output support  
-
-### 🧠 **AI-Powered Tools**
-- Flashcard generator  
-- AI tutor (concept explanations & guidance)  
-- Personalized study plan creator  
-
-### 👥 **Study Group Matcher**
-- Suggests peers with similar goals  
-- Encourages collaborative learning  
-
-### 🎨 **Frontend Features**
-- Clean UI with HTML/CSS/JS  
-- Responsive on all devices  
-- Easy navigation between modules  
+### 💻 Coding Workspace & Sandbox
+![Coding Workspace](./app/static/images/coding_mockup.png)
 
 ---
 
 ## 🗂️ Project Structure
 
+The project follows a standard Flask application factory architecture:
+
 ```text
-CODEMENTOR-AI/
+CodeMentor AI/
 │
-├── app.py                      # Main Flask application
-├── routes.py                   # App routes
-├── models.py                   # Database models
-├── code_executor.py            # Code execution logic
-├── coding_tracker.py           # Progress tracker
-├── ai_tutor.py                 # AI tutor features
-├── ai_flashcard_generator.py   # Flashcard generator
-├── notification_service.py     # Optional: reminder/notification system
-├── study_group_matcher.py      # Study-group matching logic
+├── app/
+│   ├── __init__.py             # Flask application factory & database setup
+│   ├── models.py               # Unified database models
+│   ├── routes.py               # Controller routes (auth, dashboards, contests)
+│   ├── ai/                     # AI abstraction layer (Gemini, Claude, OpenAI, DeepSeek)
+│   ├── services/               # Core business services (code execution, notifications)
+│   ├── static/                 # Front-end assets (consolidated CSS, JavaScript)
+│   └── templates/              # HTML Templates
 │
-├── templates/                  # HTML templates
-├── static/                     # CSS, JS, images
-│
-├── requirements.txt
+├── tests/                      # Testing package (34 tests with 80%+ coverage)
+├── Dockerfile                  # Production container definition
+├── docker-compose.yml          # Container configuration for local environments
+├── .env.example                # Default configuration environment variables
+├── Procfile                    # Production startup commands
+├── render.yaml                 # Infrastructure-as-code deployment settings
+├── main.py                     # Entrypoint script
 └── README.md
 ```
 
@@ -86,12 +63,11 @@ CODEMENTOR-AI/
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/manojk909/CODEMENTOR-AI.git
-cd CODEMENTOR-AI
+git clone https://github.com/manojk909/CODE-TRACK-PRO.git
+cd CODE-TRACK-PRO
 ```
 
 ### 2️⃣ Create & activate virtual environment
-
 ```bash
 python -m venv venv
 source venv/bin/activate        # macOS/Linux
@@ -99,64 +75,35 @@ venv\Scripts\activate           # Windows
 ```
 
 ### 3️⃣ Install dependencies
-
 ```bash
-pip install -r requirements.txt
+pip install -r render_requirements.txt
 ```
 
-### 4️⃣ Run the application
-
+### 4️⃣ Set up environment variables
+Copy the template configuration:
 ```bash
-python app.py
+cp .env.example .env
+```
+Open `.env` and fill in your custom keys (e.g., `GEMINI_API_KEY`, `OPENAI_API_KEY`).
+
+### 5️⃣ Seed local database
+Create tables and populate sample problems:
+```bash
+python seed_db.py
 ```
 
-Visit: **[http://localhost:5000](https://codementorai.onrender.com)**
-
----
-
----
-
-## 🚀 Roadmap
-
-* [ ] Add user authentication (login/signup)
-* [ ] Add database for persistent tracking
-* [ ] Improve analytics dashboard
-* [ ] Add more AI-driven learning tools
-* [ ] Add support for more programming languages
-* [ ] Add Leaderboard + Competitive mode
-* [ ] Deploy on Render/Vercel
-
----
-
-## 🐞 Known Issues
-
-* Some AI features may need API keys
-* Code execution may have language restrictions
-* Notification service may require cron configuration
-
----
-
-## 👨‍💻 Contributing
-
-Contributions are welcome!
-To contribute:
-
-1. Fork the repo
-2. Create a new branch
-3. Commit changes
-4. Submit a pull request
-
-Feel free to open issues for bugs, features, or improvements.
-
----
-
-## 📬 Contact
-
-If you have questions or suggestions, feel free to reach out:
-**GitHub:** [https://github.com/manojk909](https://github.com/manojk909)
-
----
-
-### ⭐ If you like this project, give it a star on GitHub — it motivates further development!
-
+### 6️⃣ Run the application
+```bash
+python main.py
 ```
+Open **[http://localhost:5000](http://localhost:5000)** in your browser.
+
+---
+
+## 🚀 Deployment
+
+CodeMentor AI is configured for one-click deployment via Render:
+1. Log in to [Render](https://dashboard.render.com).
+2. Click **New** -> **Blueprint**.
+3. Link your GitHub repository.
+4. Render will deploy the application and database based on `render.yaml`.

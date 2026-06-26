@@ -43,6 +43,12 @@ class NotificationScheduler:
                     logging.warning("No Flask app context available for scheduler")
             except Exception as e:
                 logging.error(f"Error in notification scheduler: {e}")
+            finally:
+                try:
+                    from app import db
+                    db.session.remove()
+                except Exception as ex:
+                    logging.error(f"Error removing db session in scheduler: {ex}")
             
             # Sleep for 5 minutes before next check
             for _ in range(300):  # 5 minutes = 300 seconds
