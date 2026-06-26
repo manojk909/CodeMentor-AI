@@ -1,4 +1,4 @@
-<h1 align="center">🚀 CODE-TRACK-PRO</h1>
+<h1 align="center">🚀 CODEMENTOR-AI</h1>
 
 <p align="center">
    Track your coding progress, generate study plans, execute code online, and accelerate your learning journey — all in one platform.
@@ -8,14 +8,14 @@
    <img src="https://img.shields.io/badge/Framework-Flask-blue" />
    <img src="https://img.shields.io/badge/Python-3.10+-yellow" />
    <img src="https://img.shields.io/badge/Status-Active-success" />
-   <img src="https://img.shields.io/github/license/manojk909/CODE-TRACK-PRO" />
+   <img src="https://img.shields.io/github/license/manojk909/CODEMENTOR-AI" />
 </p>
 
 ---
 
 ## 📌 About the Project
 
-**CODE-TRACK-PRO** is a web-based coding assistant & progress tracker built using **Flask + Python**.  
+**CODEMENTOR-AI** is a web-based coding assistant & progress tracker built using **Flask + Python**.  
 It helps users:
 
 - Track coding progress over time  
@@ -61,7 +61,7 @@ This project is designed for students, developers, and anyone serious about impr
 ## 🗂️ Project Structure
 
 ```text
-CODE-TRACK-PRO/
+CODEMENTOR-AI/
 │
 ├── app.py                      # Main Flask application
 ├── routes.py                   # App routes
@@ -86,8 +86,8 @@ CODE-TRACK-PRO/
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/manojk909/CODE-TRACK-PRO.git
-cd CODE-TRACK-PRO
+git clone https://github.com/manojk909/CODEMENTOR-AI.git
+cd CODEMENTOR-AI
 ```
 
 ### 2️⃣ Create & activate virtual environment
@@ -110,7 +110,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Visit: **[http://localhost:5000](https://codetrackpro.onrender.com)**
+Visit: **[http://localhost:5000](https://codementorai.onrender.com)**
 
 ---
 

@@ -1,7 +1,7 @@
 # 🚀 FREE AI Setup Guide - Never Hit Quota Limits Again!
 
 ## Overview
-Your CodeTrack Pro now supports **multiple free AI providers** with unlimited or very high quotas. This ensures your AI features always work without hitting limits.
+Your CodeMentor AI now supports **multiple free AI providers** with unlimited or very high quotas. This ensures your AI features always work without hitting limits.
 
 ## 🔥 Available Free AI Options
 
@@ -110,4 +110,4 @@ This gives you virtually unlimited AI with automatic fallback!
 3. **OpenRouter gives model variety** - Access to latest models
 4. **Local fallbacks always work** - No API needed
 
-Your CodeTrack Pro will now have unlimited AI power! 🚀
+Your CodeMentor AI will now have unlimited AI power! 🚀

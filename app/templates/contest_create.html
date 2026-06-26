@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Create Contest - CodeMentor AI{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center mb-4">
+                <a href="{{ url_for('contests') }}" class="btn btn-outline-secondary me-3">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h2 class="gradient-text fw-bold mb-0">
+                    <i class="fas fa-plus-circle me-2"></i>Create New Contest
+                </h2>
+            </div>
+
+            <div class="glass-card p-4">
+                <form method="POST">
+                    <div class="mb-4">
+                        <label for="title" class="form-label fw-bold">Contest Title</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-trophy"></i>
+                            </span>
+                            <input type="text" class="form-control" id="title" name="title" 
+                                   placeholder="e.g., Weekly Programming Challenge #1" required>
+                        </div>
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Choose a descriptive title that students will see
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="description" class="form-label fw-bold">Description</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-align-left"></i>
+                            </span>
+                            <textarea class="form-control" id="description" name="description" 
+                                      rows="4" placeholder="Describe the contest objectives and format..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="start_date" class="form-label fw-bold">Start Date</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                                <input type="date" class="form-control" id="start_date" name="start_date" 
+                                       min="{{ today }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="start_time" class="form-label fw-bold">Start Time</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-clock"></i>
+                                </span>
+                                <input type="time" class="form-control" id="start_time" name="start_time" 
+                                       value="10:00" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="duration_minutes" class="form-label fw-bold">Duration</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-hourglass-half"></i>
+                            </span>
+                            <select class="form-select" id="duration_minutes" name="duration_minutes" required>
+                                <option value="30">30 minutes</option>
+                                <option value="60">1 hour</option>
+                                <option value="90">1.5 hours</option>
+                                <option value="120" selected>2 hours</option>
+                                <option value="180">3 hours</option>
+                                <option value="240">4 hours</option>
+                                <option value="300">5 hours</option>
+                            </select>
+                        </div>
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Students will have this much time to complete all problems
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h6 class="alert-heading">
+                            <i class="fas fa-lightbulb me-2"></i>Next Steps
+                        </h6>
+                        <p class="mb-2">After creating the contest, you'll be able to:</p>
+                        <ul class="mb-0">
+                            <li>Add programming problems with test cases</li>
+                            <li>Configure scoring and time limits</li>
+                            <li>Preview the contest before it goes live</li>
+                            <li>Monitor participation and results</li>
+                        </ul>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('contests') }}" class="btn btn-outline-secondary me-md-2">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-check me-2"></i>Create Contest
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Set minimum date to today
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('start_date').value = today;
+    document.getElementById('start_date').min = today;
+});
+</script>
+{% endblock %}

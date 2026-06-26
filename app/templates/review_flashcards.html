@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+
+{% block title %}Review Flashcards - CodeMentor AI{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="glass-card p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="fw-bold gradient-text mb-2">
+                            <i class="fas fa-brain me-2"></i>{{ review_type|title }} Review: {{ current_topic }}
+                        </h2>
+                        <p class="text-muted mb-0">
+                            {% if review_type == 'due' %}
+                                Reviewing cards that are due for spaced repetition
+                            {% else %}
+                                Early revision - review all flashcards anytime
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="{{ url_for('revision') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Topics
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="glass-card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-bold">Progress: <span id="currentCard">1</span> of {{ cards|length }}</span>
+                    <div class="progress flex-grow-1 mx-3" style="height: 8px;">
+                        <div class="progress-bar bg-gradient" id="progressBar" role="progressbar" style="width: {{ (1/cards|length)*100 }}%" aria-valuenow="1" aria-valuemin="0" aria-valuemax="{{ cards|length }}"></div>
+                    </div>
+                    <span class="text-muted">{{ cards|length }} cards</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if cards %}
+    <!-- Flashcard Display -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-10 col-xl-8">
+            <div class="flashcard-container">
+                {% for card in cards %}
+                <div class="flashcard glass-card p-4 {{ 'active' if loop.first else 'd-none' }}" data-card-id="{{ card.id }}" data-card-index="{{ loop.index0 }}">
+                    <div class="card-front">
+                        <div class="text-center mb-4">
+                            <span class="badge bg-primary mb-2">{{ card.difficulty|title }}</span>
+                            {% if card.is_ai_generated %}
+                            <span class="badge bg-success mb-2">AI Generated</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="question-section text-center">
+                            <h4 class="fw-bold mb-4">{{ card.question }}</h4>
+                            <button class="btn btn-primary btn-lg" onclick="showAnswer({{ loop.index0 }})">
+                                <i class="fas fa-eye me-2"></i>Show Answer
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-back d-none">
+                        <div class="text-center mb-4">
+                            <span class="badge bg-primary mb-2">{{ card.difficulty|title }}</span>
+                            {% if card.is_ai_generated %}
+                            <span class="badge bg-success mb-2">AI Generated</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="question-section mb-3">
+                            <h5 class="fw-bold text-muted mb-2">Question:</h5>
+                            <p class="mb-0">{{ card.question }}</p>
+                        </div>
+                        
+                        <div class="answer-section mb-3">
+                            <h5 class="fw-bold text-success mb-3">Answer:</h5>
+                            <div class="answer-content">
+                                {{ card.answer|replace('\n', '<br>')|safe }}
+                            </div>
+                        </div>
+                        
+                        {% if review_type == 'due' %}
+                        <div class="rating-section text-center">
+                            <p class="text-muted mb-3">How well did you know this?</p>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-outline-danger" onclick="rateCard({{ card.id }}, 1, {{ loop.index0 }})">
+                                    <i class="fas fa-times me-1"></i>Again
+                                </button>
+                                <button class="btn btn-outline-warning" onclick="rateCard({{ card.id }}, 2, {{ loop.index0 }})">
+                                    <i class="fas fa-meh me-1"></i>Hard
+                                </button>
+                                <button class="btn btn-outline-info" onclick="rateCard({{ card.id }}, 3, {{ loop.index0 }})">
+                                    <i class="fas fa-thumbs-up me-1"></i>Good
+                                </button>
+                                <button class="btn btn-outline-success" onclick="rateCard({{ card.id }}, 4, {{ loop.index0 }})">
+                                    <i class="fas fa-check me-1"></i>Easy
+                                </button>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="navigation-section text-center">
+                            <button class="btn btn-success btn-lg" onclick="nextCard({{ loop.index0 }})">
+                                <i class="fas fa-arrow-right me-2"></i>Next Card
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Completion Message -->
+            <div class="completion-message glass-card p-4 text-center d-none">
+                <div class="mb-4">
+                    <i class="fas fa-trophy fa-3x text-warning mb-3"></i>
+                    <h3 class="fw-bold mb-2">{{ 'Review' if review_type == 'due' else 'Early Revision' }} Complete!</h3>
+                    <p class="text-muted">You've finished reviewing {{ cards|length }} flashcards for {{ current_topic }}.</p>
+                </div>
+                
+                <div class="d-flex gap-3 justify-content-center">
+                    <a href="{{ url_for('revision') }}" class="btn btn-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Topics
+                    </a>
+                    {% if review_type == 'early' %}
+                    <a href="{{ url_for('revise_early', topic=current_topic) }}" class="btn btn-outline-success">
+                        <i class="fas fa-redo me-2"></i>Review Again
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="glass-card p-4 text-center">
+                <i class="fas fa-exclamation-circle fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted mb-3">No flashcards found</h4>
+                <p class="text-muted mb-4">There are no flashcards available for this topic.</p>
+                <a href="{{ url_for('revision') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Topics
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.flashcard {
+    min-height: 500px;
+    max-height: 80vh;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    position: relative;
+}
+
+.card-front, .card-back {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.question-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.question-section h4 {
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.answer-section {
+    flex: 1;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.answer-content {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    line-height: 1.8;
+    font-size: 1rem;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.answer-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.answer-content::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+}
+
+.answer-content::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+}
+
+.rating-section, .navigation-section {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-group .btn {
+    min-width: 80px;
+    font-size: 0.9rem;
+}
+
+.flashcard.active {
+    animation: slideInRight 0.5s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.completion-message {
+    animation: fadeInUp 0.8s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .flashcard {
+        min-height: 450px;
+        max-height: 70vh;
+    }
+    
+    .answer-content {
+        max-height: 200px;
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .btn-group .btn {
+        min-width: 60px;
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+}
+
+/* Ensure content doesn't get cut off */
+.container-fluid {
+    padding-bottom: 2rem;
+}
+</style>
+
+<script>
+let currentCardIndex = 0;
+const totalCards = {{ cards|length }};
+
+function showAnswer(cardIndex) {
+    const card = document.querySelector(`[data-card-index="${cardIndex}"]`);
+    const front = card.querySelector('.card-front');
+    const back = card.querySelector('.card-back');
+    
+    front.classList.add('d-none');
+    back.classList.remove('d-none');
+}
+
+function nextCard(cardIndex) {
+    if (cardIndex < totalCards - 1) {
+        showNextCard(cardIndex + 1);
+    } else {
+        showCompletion();
+    }
+}
+
+function rateCard(cardId, rating, cardIndex) {
+    // Update spaced repetition data
+    fetch('{{ url_for("rate_flashcard") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'card_id': cardId,
+            'rating': rating
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (cardIndex < totalCards - 1) {
+                showNextCard(cardIndex + 1);
+            } else {
+                showCompletion();
+            }
+        } else {
+            alert('Error rating card: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to rate card. Please try again.');
+    });
+}
+
+function showNextCard(nextIndex) {
+    // Hide current card
+    document.querySelectorAll('.flashcard.active').forEach(card => {
+        card.classList.remove('active');
+        card.classList.add('d-none');
+    });
+    
+    // Show next card
+    const nextCard = document.querySelector(`[data-card-index="${nextIndex}"]`);
+    nextCard.classList.remove('d-none');
+    nextCard.classList.add('active');
+    
+    // Reset card to front
+    const front = nextCard.querySelector('.card-front');
+    const back = nextCard.querySelector('.card-back');
+    front.classList.remove('d-none');
+    back.classList.add('d-none');
+    
+    // Update progress
+    currentCardIndex = nextIndex;
+    updateProgress();
+}
+
+function showCompletion() {
+    document.querySelector('.flashcard-container').classList.add('d-none');
+    document.querySelector('.completion-message').classList.remove('d-none');
+    updateProgress();
+}
+
+function updateProgress() {
+    const progress = ((currentCardIndex + 1) / totalCards) * 100;
+    document.getElementById('currentCard').textContent = currentCardIndex + 1;
+    document.getElementById('progressBar').style.width = progress + '%';
+    document.getElementById('progressBar').setAttribute('aria-valuenow', currentCardIndex + 1);
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(event) {
+    if (event.key === ' ') { // Spacebar to show answer
+        event.preventDefault();
+        const activeCard = document.querySelector('.flashcard.active');
+        if (activeCard) {
+            const cardIndex = parseInt(activeCard.getAttribute('data-card-index'));
+            const front = activeCard.querySelector('.card-front');
+            if (!front.classList.contains('d-none')) {
+                showAnswer(cardIndex);
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

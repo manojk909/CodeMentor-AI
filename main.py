@@ -1,6 +1,5 @@
 from app import app
-import routes
-from notification_scheduler import start_notification_scheduler
+from app.services.notification_scheduler import start_notification_scheduler
 
 # Start background notification scheduler
 start_notification_scheduler(app)

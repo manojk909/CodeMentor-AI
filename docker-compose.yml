@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - SESSION_SECRET=dev-secret-key-change-in-production
+      # By default, runs using SQLite fallback.
+      # To run with postgres, uncomment DATABASE_URL below and the db service.
+      # - DATABASE_URL=postgresql://codementor:password@db:5432/codementor_ai
+    volumes:
+      - .:/code
+    # depends_on:
+    #   - db
+
+  # db:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     - POSTGRES_USER=codementor
+  #     - POSTGRES_PASSWORD=password
+  #     - POSTGRES_DB=codementor_ai
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:
