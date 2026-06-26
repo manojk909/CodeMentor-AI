@@ -26,9 +26,6 @@ It provides developers with:
 ### 📊 CodeMentor AI Dashboard
 ![CodeMentor AI Dashboard](./app/static/images/dashboard_mockup.png)
 
-### 💻 Coding Workspace & Sandbox
-![Coding Workspace](./app/static/images/coding_mockup.png)
-
 ---
 
 ## 🗂️ Project Structure
@@ -100,10 +97,23 @@ Open **[http://localhost:5000](http://localhost:5000)** in your browser.
 
 ---
 
-## 🚀 Deployment
+## 📊 Future Roadmap
 
-CodeMentor AI is configured for one-click deployment via Render:
-1. Log in to [Render](https://dashboard.render.com).
-2. Click **New** -> **Blueprint**.
-3. Link your GitHub repository.
-4. Render will deploy the application and database based on `render.yaml`.
+* [ ] Voice AI tutor
+* [ ] Resume analyzer
+* [ ] Interview simulator
+* [ ] Competitive coding arena
+* [ ] AI coding agent
+* [ ] Mobile application
+* [ ] Learning recommendation engine
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome.
+
+```bash
+Fork → Create Branch → Commit → Push → Pull Request
+```
+---
